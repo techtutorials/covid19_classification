@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Covid19 Pneumonia Classification</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <script src="https://kit.fontawesome.com/" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Covid-19 Classification using Machine Learning</h1>
+
+      <div class="columns">
+        <div class="column">
+          <h2 class="subtitle">Upload the chest x-ray image</h2>
+          <form action="/" method="POST" enctype="multipart/form-data">
+            <dl>
+              <div class="field">
+                <div id="file" class="file is-boxed has-name">
+                  <label class="file-label">
+                    <input class="file-input" type="file" name="file" autocomplete="off" required>
+                    <span class="file-cta">
+                      <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                      </span>
+                      <span class="file-label">
+                        Choose a file…
+                      </span>
+                    </span>
+                    <span class="file-name">
+                      No file uploaded
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </dl>
+            <br>
+            <button class="button is-link is-light" type="submit">Submit</button>
+          </form>
+        </div>
+
+        <div class="column">
+          <div id="prediction" class="message" hidden>
+            {% with messages = get_flashed_messages() %}
+            <div class="message-header">
+              {% if messages[0] == "COVID19" %}
+              <script>
+                document.getElementById('prediction').classList.add('is-danger')
+                document.getElementById('prediction').classList.remove('is-primary')
+                document.getElementById('prediction').removeAttribute('hidden')
+              </script>
+              <h2 class="subtitle" style="color: azure;">Sorry.. You're covid positive. Get well soon!</h1>
+                {% elif messages[0] == "Normal" %}
+                <script>
+                  document.getElementById('prediction').classList.add('is-primary')
+                  document.getElementById('prediction').classList.remove('is-danger')
+                  document.getElementById('prediction').removeAttribute('hidden')
+                </script>
+                <h2 class="subtitle" style="color: azure;">Hooray! You're Completely fine.</h1>
+                  {% endif %}
+                  <button id="delete" class="delete"></button>
+            </div>
+            <div class="message-body">
+              <figure class="image">
+                <img src={{ messages[1] }} style="width: 150px; height: 150px;">
+              </figure>
+            </div>
+            {% endwith %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="content">
+      <p>
+        Note:- AI will produce random results if the image is not an x-ray. You can get some sample images <a href="https://drive.google.com/drive/folders/1GzLEz-t8f0qc0e9ylZueBn1lHZJfbkTK?usp=sharing">here</a>
+        Code is avaliable <a href="https://github.com/techno021/covid19_classification" target="_blank">here</a>. <br>
+        Dataset is avaliable <a href="https://www.kaggle.com/prashant268/chest-xray-covid19-pneumonia" target="_blank">here</a>.
+        <div class="columns">
+          <div class="column">
+            <strong>Tech Stack</strong>
+            <ul>
+              <li>Tensorflow 2.3</li>
+              <li>Flask</li>
+              <li>Keras</li>
+              <li>Python</li>
+              <li>Bulma (UI)</li>
+              <li>Javascript</li>
+              <li>HTML</li>
+            </ul>
+          </div>
+          <div class="column">
+            <strong>Socials</strong>
+            <ul>
+              <li>
+                <span class="icon">
+                  <i class="fab fa-github-alt"></i>
+                </span>
+                <a href="https://github.com/Techno021">@Techno021</a>
+              </li>
+              <li>
+                <span class="icon">
+                  <i class="fab fa-youtube"></i>
+                </span>
+                <a href="https://www.youtube.com/channel/UCjo4sZ-G8ExZpGATmUrKKkA?view_as=subscriber">@Techno021</a>
+                Please subscribe!
+              </li>
+            </ul>
+          </div>
+        </div>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const fileInput = document.querySelector('#file input[type=file]');
+    fileInput.onchange = () => {
+      if (fileInput.files.length > 0) {
+        const fileName = document.querySelector('#file .file-name');
+        fileName.textContent = fileInput.files[0].name;
+      }
+    }
+
+    document.querySelector('#delete').addEventListener('click', () => {
+      document.querySelector('#prediction').setAttribute('hidden', true)
+    })
+  </script>
+</body>
+
+</html>
