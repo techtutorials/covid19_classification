@@ -11,8 +11,8 @@ app = Flask(
   static_folder='./upload'
 )
 
-model = load_model('./model/covid19_classification.h5')
-
+#model = load_model('./model/covid19_classification.h5')
+model = ""
 @app.route("/")
 def index():
     return render_template('index.html')
